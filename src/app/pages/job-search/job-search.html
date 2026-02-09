@@ -1,0 +1,61 @@
+<div class="page">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a class="logo" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                </svg>
+                JobFinder
+            </a>
+            <nav class="header-nav">
+                <a href="#" class="nav-link active">Jobs</a>
+                <a href="#" class="nav-link">Applications</a>
+                <a href="#" class="nav-link">Favorites</a>
+            </nav>
+            <div class="header-user">
+                <div class="user-info">
+                    <span class="user-name">Alice Johnson</span>
+                    <span class="user-email">alice&#64;example.com</span>
+                </div>
+                <img class="avatar" src="https://i.pinimg.com/736x/2c/47/d5/2c47d5dd5b532f83bb55c4cd6f5bd1ef.jpg">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="main">
+        <div class="main-inner">
+            <!-- Search bar -->
+            <section class="search-section">
+                <div class="search-header">
+                    <div>
+                        <h1 class="page-title">Find your next role</h1>
+                        <p class="page-subtitle">Discover opportunities that match your skills</p>
+                    </div>
+                    <p class="result-count">120 jobs found</p>
+                </div>
+                <app-search-bar />
+            </section>
+
+            <!-- Content area: sidebar + job list -->
+            <div class="content-layout">
+                <app-filter-sidebar />
+
+                <div class="jobs-column">
+                    <app-job-card />
+                    <app-job-card />
+                    <app-job-card />
+                    <app-job-card />
+                    <app-job-card />
+                    <app-job-card />
+
+
+                    <app-pagination />
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

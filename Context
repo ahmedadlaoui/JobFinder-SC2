@@ -1,0 +1,58 @@
+Project Context: JobFinder SPA
+1. Project Overview
+JobFinder is a job search application that allows candidates to browse international job offers via public APIs. The project is a Frontend-only Single Page Application (SPA) using Angular. There is no custom backend; JSON Server is used to simulate a REST API and persist data for users, favorites, and applications.
+
+2. Technical Requirements
+Framework: Angular 17+ (Standalone or Module-based).
+
+State Management: NgRx is mandatory for managing the "Favorites" functionality.
+
+Data Persistence: JSON Server (db.json) for users, favorites, and applications.
+
+Authentication: Simulated auth storing user objects (minus passwords) in sessionStorage or localStorage.
+
+Styling: Responsive design using Bootstrap or Tailwind CSS.
+
+Key Features: RxJS Observables, Reactive Forms, Guards (AuthGuard), Resolvers, and Lazy Loading.
+
+3. Data Schemas
+3.1. External API: The Muse
+Endpoint: https://www.themuse.com/api/public/jobs Job Object Structure:
+
+JSON
+
+{
+  "id": "string",
+  "name": "string", // Job Title
+  "contents": "string", // HTML Description
+  "publication_date": "YYYY-MM-DD",
+  "locations": [{ "name": "string" }],
+  "categories": [{ "name": "string" }],
+  "levels": [{ "name": "string" }],
+  "company": { "name": "string" },
+  "refs": { "landing_page": "string" } // Link to full offer
+}
+3.2. Local Storage (JSON Server db.json)
+users: Stores id, firstName, lastName, email, and password.
+
+favoritesOffers: Stores id, userId, offerId, title, company, and location.
+
+applications: Stores tracking info including status (en_attente, accepté, refusé) and notes.
+
+4. Business Logic & Rules
+Search Logic: Filters by Keyword (Title only) and Location. Results must be sorted by publication_date (Newest first).
+
+Auth Rules: Search is public; Favorites and Applications are restricted to authenticated users via authGuard.
+
+Favorites Logic (NgRx): * A user cannot add the same offer twice.
+
+The UI must show a visual indicator if an offer is already in favorites.
+
+Application Tracking: Users manually update statuses and can add optional personal notes.
+
+5. Components Architecture
+Each page must consist of at least two components (Parent/Child or Siblings).
+
+Loading indicators must be displayed during API calls.
+
+HTTP Interceptors should be used for centralized error handling or API key management.
