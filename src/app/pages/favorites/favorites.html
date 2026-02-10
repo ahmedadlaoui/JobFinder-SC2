@@ -1,0 +1,83 @@
+<div class="page">
+    <header class="header">
+        <div class="header-inner">
+            <a class="logo" routerLink="/jobs">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                </svg>
+                JobFinder
+            </a>
+            <nav class="header-nav">
+                <a routerLink="/jobs" class="nav-link">Jobs</a>
+                <a routerLink="/favorites" class="nav-link active">Favorites</a>
+            </nav>
+            <div class="header-user">
+                <div class="user-info">
+                    <span class="user-name">Alice Johnson</span>
+                    <span class="user-email">alice&#64;example.com</span>
+                </div>
+                <img class="avatar" src="https://i.pinimg.com/736x/2c/47/d5/2c47d5dd5b532f83bb55c4cd6f5bd1ef.jpg">
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="main-inner">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Saved Jobs</h1>
+                    <p class="page-subtitle">Your favorite positions in one place</p>
+                </div>
+                <p class="result-count">{{ favorites().length }} saved</p>
+            </div>
+
+            @if (loading()) {
+            <div class="loading">Loading favorites...</div>
+            } @else {
+            @if (favorites().length === 0) {
+            <div class="empty-state">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                </svg>
+                <h3>No favorites yet</h3>
+                <p>Browse jobs and save the ones you like</p>
+                <a routerLink="/jobs" class="btn-browse">Browse Jobs</a>
+            </div>
+            } @else {
+            <div class="favorites-grid">
+                @for (fav of favorites(); track fav.id) {
+                <article class="fav-card">
+                    <div class="fav-card-top">
+                        <div class="fav-logo">
+                            <span>{{ getInitials(fav.company) }}</span>
+                        </div>
+                        <button class="btn-remove" (click)="removeFavorite(fav.id)" title="Remove from favorites">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M18 6 6 18" />
+                                <path d="m6 6 12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <h3 class="fav-title">{{ fav.title }}</h3>
+                    <p class="fav-company">{{ fav.company }}</p>
+                    <div class="fav-location">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        {{ fav.location }}
+                    </div>
+                </article>
+                }
+            </div>
+            }
+            }
+        </div>
+    </main>
+</div>

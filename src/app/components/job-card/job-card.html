@@ -1,12 +1,12 @@
 <article class="job-card">
     <div class="card-left">
         <div class="company-logo">
-            <span>TC</span>
+            <span>{{ getInitials() }}</span>
         </div>
     </div>
     <div class="card-body">
         <div class="card-header">
-            <h3 class="job-title">Frontend Developer</h3>
+            <h3 class="job-title">{{ job().title }}</h3>
             <div class="card-actions">
                 <button class="btn-fav" title="Save to favorites">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
@@ -14,17 +14,17 @@
                         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
                     </svg>
                 </button>
-                <button class="btn-apply">
+                <a class="btn-apply" [href]="job().applyUri" target="_blank">
                     Apply
                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M7 17L17 7" />
                         <path d="M7 7h10v10" />
                     </svg>
-                </button>
+                </a>
             </div>
         </div>
-        <p class="company-name">TechCorp</p>
+        <p class="company-name">{{ job().organization }}</p>
         <div class="job-meta">
             <span class="meta-tag">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
@@ -32,7 +32,7 @@
                     <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                     <circle cx="12" cy="10" r="3" />
                 </svg>
-                San Francisco, CA
+                {{ job().location }}
             </span>
             <span class="meta-dot"></span>
             <span class="meta-tag">
@@ -41,10 +41,12 @@
                     <circle cx="12" cy="12" r="10" />
                     <polyline points="12 6 12 12 16 14" />
                 </svg>
-                2 days ago
+                {{ job().publicationDate | date:'mediumDate' }}
             </span>
+            @if (job().salary) {
             <span class="meta-dot"></span>
-            <span class="meta-tag level">Mid Level</span>
+            <span class="meta-tag level">{{ job().salary }}</span>
+            }
         </div>
     </div>
 </article>

@@ -1,64 +1,47 @@
 {
-    "users": [
-        {
-            "id": 1,
-            "name": "Alice Johnson",
-            "email": "alice@example.com",
-            "password": "password123",
-            "phone": "+1-555-0101"
-        },
-        {
-            "id": 2,
-            "name": "Bob Smith",
-            "email": "bob@example.com",
-            "password": "password456",
-            "phone": "+1-555-0102"
-        }
-    ],
-    "applications": [
-        {
-            "id": 1,
-            "userId": 1,
-            "offerId": "101",
-            "apiSource": "adzuna",
-            "title": "Frontend Developer",
-            "company": "TechCorp",
-            "location": "San Francisco, CA",
-            "url": "https://example.com/jobs/101",
-            "status": "pending",
-            "notes": "Application sent on 02/10/2026. Follow up in 2 weeks.",
-            "dateAdded": "2026-02-10T10:30:00Z"
-        },
-        {
-            "id": 2,
-            "userId": 2,
-            "offerId": "102",
-            "apiSource": "themuse",
-            "title": "UX Designer",
-            "company": "DesignHub",
-            "location": "Remote",
-            "url": "https://example.com/jobs/102",
-            "status": "interview",
-            "notes": "Phone screen scheduled for 02/15/2026.",
-            "dateAdded": "2026-02-08T14:00:00Z"
-        }
-    ],
-    "favorites": [
-        {
-            "id": 1,
-            "userId": 1,
-            "offerId": 103,
-            "title": "Full Stack Engineer",
-            "company": "InnovateLab",
-            "location": "New York, NY"
-        },
-        {
-            "id": 2,
-            "userId": 2,
-            "offerId": 104,
-            "title": "Product Manager",
-            "company": "StartupXYZ",
-            "location": "Austin, TX"
-        }
-    ]
+  "users": [
+    {
+      "id": "1",
+      "name": "Alice Johnson",
+      "email": "alice@example.com",
+      "password": "password123",
+      "phone": "+1-555-0101"
+    },
+    {
+      "id": "2",
+      "name": "Bob Smith",
+      "email": "bob@example.com",
+      "password": "password456",
+      "phone": "+1-555-0102"
+    }
+  ],
+  "applications": [
+    {
+      "id": "1",
+      "userId": 1,
+      "offerId": "101",
+      "apiSource": "adzuna",
+      "title": "Frontend Developer",
+      "company": "TechCorp",
+      "location": "San Francisco, CA",
+      "url": "https://example.com/jobs/101",
+      "status": "pending",
+      "notes": "Application sent on 02/10/2026. Follow up in 2 weeks.",
+      "dateAdded": "2026-02-10T10:30:00Z"
+    },
+    {
+      "id": "2",
+      "userId": 2,
+      "offerId": "102",
+      "apiSource": "themuse",
+      "title": "UX Designer",
+      "company": "DesignHub",
+      "location": "Remote",
+      "url": "https://example.com/jobs/102",
+      "status": "interview",
+      "notes": "Phone screen scheduled for 02/15/2026.",
+      "dateAdded": "2026-02-08T14:00:00Z"
+    }
+  ],
+  "favorites": []
 }

@@ -5,7 +5,6 @@
   flex-direction: column;
 }
 
-/* ─── Header ─── */
 .header {
   background: #fff;
   border-bottom: 1px solid #e8eaee;
@@ -106,7 +105,6 @@
   letter-spacing: 0.5px;
 }
 
-/* ─── Main ─── */
 .main {
   flex: 1;
   background: #fff;
@@ -118,7 +116,6 @@
   padding: 28px 32px 48px;
 }
 
-/* ─── Search Section ─── */
 .search-section {
   margin-bottom: 28px;
 }
@@ -152,7 +149,6 @@
   white-space: nowrap;
 }
 
-/* ─── Content Layout ─── */
 .content-layout {
   display: flex;
   gap: 28px;
@@ -161,8 +157,21 @@
 
 .jobs-column {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 12px;
   min-width: 0;
+}
+
+.loading,
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px 0;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+app-pagination {
+  grid-column: 1 / -1;
 }
