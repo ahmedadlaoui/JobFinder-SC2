@@ -30,7 +30,7 @@ export interface UsaJobsItem {
 }
 
 export interface Job {
-    id: string;
+    id: number;
     title: string;
     organization: string;
     location: string;

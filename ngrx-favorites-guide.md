@@ -75,7 +75,7 @@ NgRx has **5 core building blocks**. Think of them as an assembly line:
                                 └──────────┘
 ```
 
-| Building Block | Analogy | What it does |
+| Building Block | Analogy | What it     does |
 |---|---|---|
 | **Store** | A database for your UI | A single immutable object holding the entire app state |
 | **Action** | An event / message | A plain object saying "something happened" (e.g., "user clicked add favorite") |
@@ -277,7 +277,7 @@ export const FavoritesActions = createActionGroup({
 
     // Triggered when: The HTTP DELETE succeeds
     // Payload: { id: number } — the ID that was deleted, so the reducer can filter it out
-    'Remove Favorite Success': props<{ id: number }>(),
+        
 
     // Triggered when: The HTTP DELETE fails
     // Payload: { error: string }

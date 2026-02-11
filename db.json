@@ -43,5 +43,14 @@
       "dateAdded": "2026-02-08T14:00:00Z"
     }
   ],
-  "favorites": []
+  "favorites": [
+    {
+      "id": "49ff",
+      "userId": 1,
+      "offerId": 856206900,
+      "title": "Transportation Security Officer",
+      "company": "Transportation Security Administration",
+      "location": "Clearwater, FL "
+    }
+  ]
 }

@@ -1,55 +1,32 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FavoriteService } from '../../services/favorite.service';
+import { AsyncPipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { Favorite } from '../../models/favorite.model';
+import { FavoritesActions } from '../../store/favorites/favorites.actions';
+import { selectAllFavorites, selectFavoritesLoading } from '../../store/favorites/favorites.selectors';
 
 @Component({
     selector: 'app-favorites',
-    imports: [RouterLink],
+    imports: [RouterLink, AsyncPipe],
     templateUrl: './favorites.html',
     styleUrl: './favorites.css',
 })
 export class FavoritesComponent implements OnInit {
-    favorites = signal<Favorite[]>([]);
-    loading = signal(false);
+    favorites$: Observable<Favorite[]>;
+    loading$: Observable<boolean>;
 
-    constructor(private favoriteService: FavoriteService) { }
-
-    ngOnInit(): void {
-        this.loadFavorites();
+    constructor(private store: Store) {
+        this.favorites$ = this.store.select(selectAllFavorites);
+        this.loading$ = this.store.select(selectFavoritesLoading);
     }
 
-    loadFavorites(): void {
-        this.loading.set(true);
-        this.favoriteService.getFavorites().subscribe({
-            next: (data) => {
-                this.favorites.set(data);
-                this.loading.set(false);
-            },
-            error: (err) => {
-                console.error('Failed to load favorites:', err);
-                this.loading.set(false);
-            },
-        });
+    ngOnInit(): void {
+        this.store.dispatch(FavoritesActions.loadFavorites());
     }
 
     removeFavorite(id: number): void {
-        this.favoriteService.removeFavorite(id).subscribe({
-            next: () => {
-                this.favorites.update((list) => list.filter((f) => f.id !== id));
-            },
-            error: (err) => {
-                console.error('Failed to remove favorite:', err);
-            },
-        });
-    }
-
-    getInitials(company: string): string {
-        return company
-            .split(' ')
-            .slice(0, 2)
-            .map((w) => w[0])
-            .join('')
-            .toUpperCase();
+        this.store.dispatch(FavoritesActions.removeFavorite({ id }));
     }
 }

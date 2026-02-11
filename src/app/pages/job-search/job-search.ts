@@ -1,18 +1,24 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
 import { SearchBarComponent } from '../../components/search-bar/search-bar';
-import { FilterSidebarComponent } from '../../components/filter-sidebar/filter-sidebar';
 import { JobCardComponent } from '../../components/job-card/job-card';
 import { PaginationComponent } from '../../components/pagination/pagination';
 import { JobService } from '../../services/job.service';
 import { Job } from '../../models/job.model';
+import { Observable, take } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Favorite } from '../../models/favorite.model';
+import { Store } from '@ngrx/store';
+import { selectAllFavorites, selectFavoriteOfferIdMap } from '../../store/favorites/favorites.selectors';
+import { FavoritesActions } from '../../store/favorites/favorites.actions';
 
 @Component({
     selector: 'app-job-search',
     imports: [
         RouterLink,
+        AsyncPipe,
         SearchBarComponent,
-        FilterSidebarComponent,
         JobCardComponent,
         PaginationComponent,
     ],
@@ -27,13 +33,25 @@ export class JobSearchComponent implements OnInit {
     totalJobs = signal(0);
     loading = signal(false);
 
+
     private keyword = '';
     private location = '';
     private readonly perPage = 10;
 
-    constructor(private jobService: JobService) { }
+    favorites$: Observable<Favorite[]>;
+    favoriteOfferIds$: Observable<Set<number>>;
+    favoriteOfferIdMap$: Observable<Map<number, number>>;
+
+    constructor(private jobService: JobService, private store: Store) {
+        this.favorites$ = this.store.select(selectAllFavorites);
+        this.favoriteOfferIds$ = this.favorites$.pipe(
+            map(favs => new Set(favs.map(f => f.offerId)))
+        );
+        this.favoriteOfferIdMap$ = this.store.select(selectFavoriteOfferIdMap);
+    }
 
     ngOnInit(): void {
+        this.store.dispatch(FavoritesActions.loadFavorites());
         this.loadJobs(1);
     }
 
@@ -64,5 +82,16 @@ export class JobSearchComponent implements OnInit {
     onPageChange(page: number): void {
         this.loadJobs(page);
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    onAddJobToFavorite(jobFromChild: Job) {
+        this.favoriteOfferIdMap$.pipe(take(1)).subscribe(m => {
+            const favId = m.get(jobFromChild.id);
+            if (favId !== undefined) {
+                this.store.dispatch(FavoritesActions.removeFavorite({ id: favId }));
+            } else {
+                this.store.dispatch(FavoritesActions.addFavorite({ job: jobFromChild }));
+            }
+        });
     }
 }

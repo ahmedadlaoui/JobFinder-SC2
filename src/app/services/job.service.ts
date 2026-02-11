@@ -35,7 +35,7 @@ export class JobService {
             const d = item.MatchedObjectDescriptor;
             const pay = d.PositionRemuneration?.[0];
             return {
-                id: item.MatchedObjectId,
+                id: Number(item.MatchedObjectId),
                 title: d.PositionTitle,
                 organization: d.OrganizationName,
                 location: d.PositionLocationDisplay,
