@@ -1,0 +1,163 @@
+<div class="page">
+    <header class="header">
+        <div class="header-inner">
+            <a class="logo" routerLink="/jobs">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                </svg>
+                JobFinder
+            </a>
+            <nav class="header-nav">
+                <a routerLink="/jobs" class="nav-link">Find job</a>
+                <a routerLink="/favorites" class="nav-link">Favorites</a>
+                <a routerLink="/applications" class="nav-link active">Applications</a>
+            </nav>
+            <div class="header-right">
+                <div class="header-user" (click)="authService.toggleDropdown(); $event.stopPropagation()">
+                    <span class="user-name">{{ authService.currentUser?.name }}</span>
+                    <img class="avatar" src="https://i.pinimg.com/736x/2c/47/d5/2c47d5dd5b532f83bb55c4cd6f5bd1ef.jpg">
+                    <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </div>
+                @if (authService.showDropdown) {
+                <div class="profile-dropdown">
+                    <div class="dropdown-header">
+                        <span class="dropdown-name">{{ authService.currentUser?.name }}</span>
+                        <span class="dropdown-email">{{ authService.currentUser?.email }}</span>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item logout-btn" (click)="authService.logout()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                            <polyline points="16 17 21 12 16 7" />
+                            <line x1="21" x2="9" y1="12" y2="12" />
+                        </svg>
+                        Log out
+                    </button>
+                </div>
+                }
+            </div>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="page-header-inner">
+            <h1 class="page-title">My Applications</h1>
+            <p class="page-subtitle">Track and manage your job applications</p>
+        </div>
+    </div>
+
+    <main class="main">
+        <div class="main-inner">
+            <div class="content-header">
+                <div class="content-header-left">
+                    <h2 class="section-title">All applications</h2>
+                    <span class="app-count">{{ (applications$ | async)?.length || 0 }}</span>
+                </div>
+            </div>
+
+            @if (loading$ | async) {
+            <div class="loading">Loading applications...</div>
+            } @else {
+            @if ((applications$ | async)?.length === 0) {
+            <div class="empty-state">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                </svg>
+                <h3>No applications yet</h3>
+                <p>Apply to jobs and track them here</p>
+                <a routerLink="/jobs" class="btn-browse">Browse Jobs</a>
+            </div>
+            } @else {
+            <div class="applications-list">
+                @for (app of (applications$ | async) ?? []; track app.id) {
+                <article class="app-card">
+                    <div class="app-card-top">
+                        <div class="card-left">
+                            <div class="company-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                                </svg>
+                            </div>
+                            <div class="card-info">
+                                <p class="company-name">{{ app.company }}</p>
+                                <h3 class="app-title">{{ app.title }}</h3>
+                                <div class="app-meta">
+                                    <span class="meta-item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                                            <circle cx="12" cy="10" r="3" />
+                                        </svg>
+                                        {{ app.location }}
+                                    </span>
+                                    <span class="meta-dot"></span>
+                                    <span class="meta-item">
+                                        Applied {{ app.dateAdded | date:'mediumDate' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-right">
+                            <div class="status-group">
+                                <select class="status-select" [class]="'status-' + app.status" [ngModel]="app.status"
+                                    (ngModelChange)="updateStatus(app, $event)">
+                                    <option value="pending">Pending</option>
+                                    <option value="accepted">Accepted</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                            </div>
+                            <button class="btn-remove" (click)="removeApplication(app.id)" title="Remove">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M3 6h18" />
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="app-card-notes">
+                        @if (editingNoteId === app.id) {
+                        <div class="note-edit">
+                            <textarea class="note-input" [(ngModel)]="noteText" placeholder="Add a personal note..."
+                                rows="2"></textarea>
+                            <div class="note-actions">
+                                <button class="btn-note-save" (click)="saveNote(app)">Save</button>
+                                <button class="btn-note-cancel" (click)="cancelEditNote()">Cancel</button>
+                            </div>
+                        </div>
+                        } @else {
+                        <div class="note-display" (click)="startEditNote(app)">
+                            @if (app.notes) {
+                            <span class="note-text">{{ app.notes }}</span>
+                            } @else {
+                            <span class="note-placeholder">Click to add a note...</span>
+                            }
+                        </div>
+                        }
+                    </div>
+                </article>
+                }
+            </div>
+            }
+            }
+        </div>
+    </main>
+</div>

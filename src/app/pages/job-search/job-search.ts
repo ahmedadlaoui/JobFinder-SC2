@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, HostListener, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { SearchBarComponent } from '../../components/search-bar/search-bar';
@@ -12,6 +12,9 @@ import { Favorite } from '../../models/favorite.model';
 import { Store } from '@ngrx/store';
 import { selectAllFavorites, selectFavoriteOfferIdMap } from '../../store/favorites/favorites.selectors';
 import { FavoritesActions } from '../../store/favorites/favorites.actions';
+import { ApplicationsActions } from '../../store/applications/applications.actions';
+import { selectApplicationOfferIdSet } from '../../store/applications/applications.selectors';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-job-search',
@@ -27,12 +30,16 @@ import { FavoritesActions } from '../../store/favorites/favorites.actions';
 })
 export class JobSearchComponent implements OnInit {
 
+    @HostListener('document:click')
+    onDocumentClick() {
+        this.authService.closeDropdown();
+    }
+
     jobs = signal<Job[]>([]);
     currentPage = signal(1);
     totalPages = signal(1);
     totalJobs = signal(0);
     loading = signal(false);
-
 
     private keyword = '';
     private location = '';
@@ -41,17 +48,24 @@ export class JobSearchComponent implements OnInit {
     favorites$: Observable<Favorite[]>;
     favoriteOfferIds$: Observable<Set<number>>;
     favoriteOfferIdMap$: Observable<Map<number, number>>;
+    appliedOfferIds$: Observable<Set<string>>;
 
-    constructor(private jobService: JobService, private store: Store) {
+    constructor(
+        private jobService: JobService,
+        private store: Store,
+        public authService: AuthService
+    ) {
         this.favorites$ = this.store.select(selectAllFavorites);
         this.favoriteOfferIds$ = this.favorites$.pipe(
             map(favs => new Set(favs.map(f => f.offerId)))
         );
         this.favoriteOfferIdMap$ = this.store.select(selectFavoriteOfferIdMap);
+        this.appliedOfferIds$ = this.store.select(selectApplicationOfferIdSet);
     }
 
     ngOnInit(): void {
         this.store.dispatch(FavoritesActions.loadFavorites());
+        this.store.dispatch(ApplicationsActions.loadApplications());
         this.loadJobs(1);
     }
 
@@ -93,5 +107,9 @@ export class JobSearchComponent implements OnInit {
                 this.store.dispatch(FavoritesActions.addFavorite({ job: jobFromChild }));
             }
         });
+    }
+
+    onApplyToJob(job: Job) {
+        this.store.dispatch(ApplicationsActions.addApplication({ job }));
     }
 }

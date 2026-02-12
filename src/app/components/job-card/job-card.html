@@ -1,4 +1,4 @@
-<article class="job-card">
+<a class="job-card" [href]="job().applyUri" target="_blank">
     <div class="card-left">
         <div class="company-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -9,7 +9,12 @@
         </div>
         <div class="card-info">
             <p class="company-name">{{ job().organization }}</p>
-            <h3 class="job-title">{{ job().title }}</h3>
+            <div class="title-row">
+                <h3 class="job-title">{{ job().title }}</h3>
+                @if (job().salary) {
+                <span class="salary-badge">{{ job().salary }}</span>
+                }
+            </div>
             <div class="job-meta">
                 <span class="meta-item">
                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
@@ -30,28 +35,30 @@
                     </svg>
                     {{ job().publicationDate | date:'mediumDate' }}
                 </span>
-                @if (job().salary) {
-                <span class="meta-dot"></span>
-                <span class="meta-item salary">{{ job().salary }}</span>
-                }
             </div>
         </div>
     </div>
     <div class="card-right">
-        <button class="btn-fav" [class.active]="isFavorite()" (click)="onFavoriteClick()" title="Save to favorites">
+        <button class="btn-fav" [class.active]="isFavorite()"
+            (click)="onFavoriteClick(); $event.preventDefault(); $event.stopPropagation()" title="Save to favorites">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                 [attr.fill]="isFavorite() ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
             </svg>
         </button>
-        <a class="btn-details" [href]="job().applyUri" target="_blank">
-            Details
+        <button class="btn-apply" (click)="onApplyClick(); $event.preventDefault(); $event.stopPropagation()"
+            [class.applied]="isApplied()">
+            @if (isApplied()) {
+            Applied
+            } @else {
+            Apply
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M7 17L17 7" />
                 <path d="M7 7h10v10" />
             </svg>
-        </a>
+            }
+        </button>
     </div>
-</article>
+</a>

@@ -1,29 +1,30 @@
 .pagination {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 }
 
 .page-btn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   background: none;
-  border: 1px solid #e4e4e7;
-  color: #52525b;
-  font-size: 12.5px;
+  border: 1px solid #eee;
+  color: #666;
+  font-size: 12px;
   font-weight: 500;
-  padding: 6px 14px;
-  border-radius: 8px;
+  padding: 6px 12px;
+    border-radius: 20px;
+  corner-shape:squircle;
   cursor: pointer;
   font-family: inherit;
-  transition: all 0.15s ease;
+  transition: all 0.15s;
 }
 
 .page-btn:hover:not(:disabled) {
-  border-color: #a1a1aa;
-  color: #18181b;
-  background: #f4f4f5;
+  border-color: #ccc;
+  color: #111;
+  
 }
 
 .page-btn:disabled {
@@ -38,39 +39,39 @@
 }
 
 .page-num {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: none;
-  border: 1px solid transparent;
-  color: #a1a1aa;
-  font-size: 12.5px;
+  border: none;
+  color: #999;
+  font-size: 12px;
   font-weight: 500;
-  border-radius: 8px;
+   border-radius: 20px;
+  corner-shape:squircle;  
   cursor: pointer;
   font-family: inherit;
-  transition: all 0.15s ease;
+  transition: all 0.15s;
 }
 
 .page-num:hover {
-  background: #f4f4f5;
-  color: #18181b;
+  background: #f5f5f5;
+  color: #111;
 }
 
 .page-num.active {
-  background: #18181b;
+  background: #111;
   color: #fff;
-  border-color: #18181b;
 }
 
 .ellipsis {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #d4d4d8;
-  font-size: 13px;
+  color: #ccc;
+  font-size: 12px;
 }

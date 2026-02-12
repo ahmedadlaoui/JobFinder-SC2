@@ -2,7 +2,6 @@ import { Component, EventEmitter, input, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Job } from '../../models/job.model';
 import { Store } from '@ngrx/store';
-import { FavoritesActions } from '../../store/favorites/favorites.actions';
 
 @Component({
     selector: 'app-job-card',
@@ -13,24 +12,20 @@ import { FavoritesActions } from '../../store/favorites/favorites.actions';
 export class JobCardComponent {
     job = input.required<Job>();
     isFavorite = input<boolean>(false);
+    isApplied = input<boolean>(false);
 
-    @Output() addToFavorite = new EventEmitter<Job>()
+    @Output() addToFavorite = new EventEmitter<Job>();
+    @Output() applyToJob = new EventEmitter<Job>();
 
     constructor(private store: Store) { }
 
-    getInitials(): string {
-        return this.job().organization
-            .split(' ')
-            .slice(0, 2)
-            .map((w) => w[0])
-            .join('')
-            .toUpperCase();
-    }
-
     onFavoriteClick() {
-        console.log('test');
-        
-        this.addToFavorite.emit(this.job())
+        this.addToFavorite.emit(this.job());
     }
 
+    onApplyClick() {
+        if (!this.isApplied()) {
+            this.applyToJob.emit(this.job());
+        }
+    }
 }

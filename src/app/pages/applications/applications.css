@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════
-   FAVORITES PAGE
+   APPLICATIONS PAGE
    ═══════════════════════════════════ */
 
 .page {
@@ -8,11 +8,6 @@
 }
 
 /* ── Header ── */
-.hero-section {
-  background: #fff;
-  border-bottom: 1px solid #eee;
-}
-
 .header {
   position: sticky;
   top: 0;
@@ -160,15 +155,15 @@
   background: #fef2f2;
 }
 
-/* ── Hero area ── */
-.hero-inner {
+/* ── Page header ── */
+.page-header {
+  border-bottom: 1px solid #eee;
+}
+
+.page-header-inner {
   max-width: 1080px;
   margin: 0 auto;
   padding: 40px 32px 32px;
-}
-
-.hero-text {
-  margin-bottom: 0;
 }
 
 .page-title {
@@ -187,10 +182,6 @@
 }
 
 /* ── Main ── */
-.main {
-  flex: 1;
-}
-
 .main-inner {
   max-width: 1080px;
   margin: 0 auto;
@@ -217,7 +208,7 @@
   margin: 0;
 }
 
-.job-count {
+.app-count {
   font-size: 13px;
   font-weight: 400;
   color: #999;
@@ -265,7 +256,8 @@
   padding: 9px 20px;
   font-size: 13px;
   font-weight: 600;
-  border-radius: 6px;
+  border-radius: 20px;
+  corner-shape: squircle;
   cursor: pointer;
   text-decoration: none;
   font-family: inherit;
@@ -276,24 +268,26 @@
   background: #333;
 }
 
-/* ── Favorites list ── */
-.favorites-grid {
+/* ── Application cards ── */
+.applications-list {
   display: flex;
   flex-direction: column;
 }
 
-.fav-card {
+.app-card {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 18px 0;
+}
+
+.app-card:last-child {
+  border-bottom: none;
+}
+
+.app-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 18px 0;
-  border-bottom: 1px solid #f0f0f0;
-  background: transparent;
-}
-
-.fav-card:last-child {
-  border-bottom: none;
 }
 
 .card-left {
@@ -308,7 +302,8 @@
   width: 40px;
   height: 40px;
   min-width: 40px;
-  border-radius: 8px;
+  border-radius: 20px;
+  corner-shape: squircle;
   background: #f5f5f5;
   display: flex;
   align-items: center;
@@ -328,7 +323,7 @@
   margin: 0 0 2px;
 }
 
-.fav-title {
+.app-title {
   font-size: 14px;
   font-weight: 600;
   color: #111;
@@ -336,8 +331,15 @@
   line-height: 1.4;
 }
 
-.fav-meta {
+.app-meta {
   display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: inline-flex;
   align-items: center;
   gap: 3px;
   font-size: 12px;
@@ -345,18 +347,66 @@
   color: #999;
 }
 
-.fav-meta svg {
+.meta-item svg {
   color: #ccc;
   flex-shrink: 0;
+}
+
+.meta-dot {
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #ddd;
+  margin: 0 2px;
 }
 
 .card-right {
   display: flex;
   align-items: center;
+  gap: 8px;
   flex-shrink: 0;
 }
 
-.btn-fav {
+/* ── Status select ── */
+.status-select {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 5px 10px;
+  border-radius: 20px;
+  corner-shape: squircle;
+  border: 1px solid #eee;
+  background: #fafafa;
+  color: #666;
+  cursor: pointer;
+  outline: none;
+  appearance: auto;
+  transition: border-color 0.15s;
+}
+
+.status-select:focus {
+  border-color: #ccc;
+}
+
+.status-pending {
+  color: #b45309;
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.status-accepted {
+  color: #15803d;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.status-rejected {
+  color: #dc2626;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.btn-remove {
   width: 34px;
   height: 34px;
   display: flex;
@@ -366,16 +416,110 @@
   background: none;
   border-radius: 6px;
   cursor: pointer;
-  color: #111;
+  color: #ddd;
   transition: color 0.15s;
 }
 
-.btn-fav:hover {
+.btn-remove:hover {
+  color: #ef4444;
+}
+
+/* ── Notes ── */
+.app-card-notes {
+  margin-top: 10px;
+  padding-left: 54px;
+}
+
+.note-display {
+  cursor: pointer;
+  padding: 6px 0;
+  min-height: 20px;
+}
+
+.note-text {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.note-placeholder {
+  font-size: 12px;
+  color: #ccc;
+  font-style: italic;
+}
+
+.note-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.note-input {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  color: #111;
+  background: #f7f7f7;
+  border: 1px solid #eee;
+  border-radius: 20px;
+  corner-shape: squircle;
+  outline: none;
+  resize: vertical;
+  min-height: 40px;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.note-input:focus {
+  border-color: #ccc;
+  background: #fff;
+}
+
+.note-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-note-save {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 5px 14px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  corner-shape: squircle;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-note-save:hover {
+  background: #333;
+}
+
+.btn-note-cancel {
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+  padding: 5px 14px;
+  background: none;
   color: #888;
+  border: 1px solid #eee;
+  border-radius: 20px;
+  corner-shape: squircle;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-note-cancel:hover {
+  border-color: #ccc;
+  color: #111;
 }
 
 @media (max-width: 700px) {
-  .fav-card {
+  .app-card-top {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
@@ -384,7 +528,10 @@
     width: 100%;
     justify-content: flex-end;
   }
-  .header-inner, .hero-inner, .main-inner {
+  .app-card-notes {
+    padding-left: 0;
+  }
+  .header-inner, .page-header-inner, .main-inner {
     padding-left: 16px;
     padding-right: 16px;
   }

@@ -7,17 +7,20 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { routes } from './app.routes';
 import { apiKeyInterceptor } from './interceptors/api-key-interceptor';
+import { authInterceptor } from './interceptors/auth-interceptor';
 import { favoriteReducer } from './store/favorites/favorites.reducer';
 import { FavoritesEffects } from './store/favorites/favorites.effects';
+import { applicationReducer } from './store/applications/applications.reducer';
+import { ApplicationsEffects } from './store/applications/applications.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([apiKeyInterceptor])),
-    provideStore({ favorites: favoriteReducer }),
-    provideEffects([FavoritesEffects]),
+    provideHttpClient(withInterceptors([apiKeyInterceptor, authInterceptor])),
+    provideStore({ favorites: favoriteReducer, applications: applicationReducer }),
+    provideEffects([FavoritesEffects, ApplicationsEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ]
 };

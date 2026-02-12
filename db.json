@@ -1,56 +1,25 @@
 {
   "users": [
     {
-      "id": "1",
-      "name": "Alice Johnson",
-      "email": "alice@example.com",
-      "password": "password123",
-      "phone": "+1-555-0101"
-    },
-    {
-      "id": "2",
-      "name": "Bob Smith",
-      "email": "bob@example.com",
-      "password": "password456",
-      "phone": "+1-555-0102"
+      "id": 1,
+      "name": "Ahmed",
+      "email": "ahmed@gmail.com",
+      "password": "ahmed123"
     }
   ],
   "applications": [
     {
-      "id": "1",
+      "id": "d8aa",
       "userId": 1,
-      "offerId": "101",
-      "apiSource": "adzuna",
-      "title": "Frontend Developer",
-      "company": "TechCorp",
-      "location": "San Francisco, CA",
-      "url": "https://example.com/jobs/101",
-      "status": "pending",
-      "notes": "Application sent on 02/10/2026. Follow up in 2 weeks.",
-      "dateAdded": "2026-02-10T10:30:00Z"
-    },
-    {
-      "id": "2",
-      "userId": 2,
-      "offerId": "102",
-      "apiSource": "themuse",
-      "title": "UX Designer",
-      "company": "DesignHub",
-      "location": "Remote",
-      "url": "https://example.com/jobs/102",
-      "status": "interview",
-      "notes": "Phone screen scheduled for 02/15/2026.",
-      "dateAdded": "2026-02-08T14:00:00Z"
-    }
-  ],
-  "favorites": [
-    {
-      "id": "49ff",
-      "userId": 1,
-      "offerId": 856206900,
+      "offerId": "847394000",
       "title": "Transportation Security Officer",
       "company": "Transportation Security Administration",
-      "location": "Clearwater, FL "
+      "location": "Grand Forks, North Dakota",
+      "url": "https://www.usajobs.gov:443/job/847394000",
+      "status": "accepted",
+      "notes": "zipoekf^pezlf",
+      "dateAdded": "2026-02-11T15:30:18.264Z"
     }
-  ]
+  ],
+  "favorites": []
 }

@@ -13,12 +13,38 @@
                 <nav class="header-nav">
                     <a routerLink="/jobs" class="nav-link">Find job</a>
                     <a routerLink="/favorites" class="nav-link active">Favorites</a>
+                    <a routerLink="/applications" class="nav-link">Applications</a>
                 </nav>
                 <div class="header-right">
-                    <div class="header-user">
+                    <div class="header-user" (click)="authService.toggleDropdown(); $event.stopPropagation()">
+                        <span class="user-name">{{ authService.currentUser?.name }}</span>
                         <img class="avatar"
                             src="https://i.pinimg.com/736x/2c/47/d5/2c47d5dd5b532f83bb55c4cd6f5bd1ef.jpg">
+                        <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
                     </div>
+                    @if (authService.showDropdown) {
+                    <div class="profile-dropdown">
+                        <div class="dropdown-header">
+                            <span class="dropdown-name">{{ authService.currentUser?.name }}</span>
+                            <span class="dropdown-email">{{ authService.currentUser?.email }}</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-btn" (click)="authService.logout()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                <polyline points="16 17 21 12 16 7" />
+                                <line x1="21" x2="9" y1="12" y2="12" />
+                            </svg>
+                            Log out
+                        </button>
+                    </div>
+                    }
                 </div>
             </div>
         </header>
