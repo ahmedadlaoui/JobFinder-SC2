@@ -1,25 +1,12 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Ahmed",
       "email": "ahmed@gmail.com",
       "password": "ahmed123"
     }
   ],
-  "applications": [
-    {
-      "id": "d8aa",
-      "userId": 1,
-      "offerId": "847394000",
-      "title": "Transportation Security Officer",
-      "company": "Transportation Security Administration",
-      "location": "Grand Forks, North Dakota",
-      "url": "https://www.usajobs.gov:443/job/847394000",
-      "status": "accepted",
-      "notes": "zipoekf^pezlf",
-      "dateAdded": "2026-02-11T15:30:18.264Z"
-    }
-  ],
+  "applications": [],
   "favorites": []
 }
