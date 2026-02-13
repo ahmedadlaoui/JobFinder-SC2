@@ -1,0 +1,143 @@
+<div class="page">
+    <div class="hero-section">
+        <header class="header">
+            <div class="header-inner">
+                <a class="logo" routerLink="/jobs">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                    </svg>
+                    JobFinder
+                </a>
+                <nav class="header-nav">
+                    <a routerLink="/jobs" class="nav-link">Find job</a>
+                    <a routerLink="/favorites" class="nav-link">Favorites</a>
+                    <a routerLink="/applications" class="nav-link">Applications</a>
+                </nav>
+                <div class="header-right">
+                    <div class="header-user" (click)="authService.toggleDropdown(); $event.stopPropagation()">
+                        <span class="user-name">{{ authService.currentUser?.name }}</span>
+                        <img class="avatar"
+                            src="https://i.pinimg.com/736x/2c/47/d5/2c47d5dd5b532f83bb55c4cd6f5bd1ef.jpg">
+                        <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    @if (authService.showDropdown) {
+                    <div class="profile-dropdown">
+                        <div class="dropdown-header">
+                            <span class="dropdown-name">{{ authService.currentUser?.name }}</span>
+                            <span class="dropdown-email">{{ authService.currentUser?.email }}</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" routerLink="/profile" (click)="authService.closeDropdown()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                            Profile
+                        </a>
+                        <button class="dropdown-item logout-btn" (click)="authService.logout()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                <polyline points="16 17 21 12 16 7" />
+                                <line x1="21" x2="9" y1="12" y2="12" />
+                            </svg>
+                            Log out
+                        </button>
+                    </div>
+                    }
+                </div>
+            </div>
+        </header>
+
+        <div class="hero-inner">
+            <div class="hero-text">
+                <h1 class="page-title">Profile</h1>
+                <p class="page-subtitle">Manage your account settings</p>
+            </div>
+        </div>
+    </div>
+
+    <main class="main">
+        <div class="main-inner">
+            <div class="sections">
+                <section class="section-card">
+                    <h2 class="section-title">Personal information</h2>
+                    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Full name</label>
+                                <input id="name" type="text" formControlName="name" placeholder="Your name" />
+                                @if (profileForm.get('name')?.touched && profileForm.get('name')?.hasError('required'))
+                                {
+                                <span class="field-error">Name is required</span>
+                                }
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+                                @if (profileForm.get('email')?.touched &&
+                                profileForm.get('email')?.hasError('required')) {
+                                <span class="field-error">Email is required</span>
+                                }
+                                @if (profileForm.get('email')?.touched && profileForm.get('email')?.hasError('email')) {
+                                <span class="field-error">Enter a valid email</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-save"
+                                [disabled]="profileForm.invalid || profileForm.pristine">
+                                Save changes
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="section-card">
+                    <h2 class="section-title">Change password</h2>
+                    <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="oldPassword">Current password</label>
+                                <input id="oldPassword" type="password" formControlName="oldPassword"
+                                    placeholder="Enter current password" />
+                                @if (passwordForm.get('oldPassword')?.touched &&
+                                passwordForm.get('oldPassword')?.hasError('required')) {
+                                <span class="field-error">Current password is required</span>
+                                }
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New password</label>
+                                <input id="newPassword" type="password" formControlName="newPassword"
+                                    placeholder="Enter new password" />
+                                @if (passwordForm.get('newPassword')?.touched &&
+                                passwordForm.get('newPassword')?.hasError('required')) {
+                                <span class="field-error">New password is required</span>
+                                }
+                                @if (passwordForm.get('newPassword')?.touched &&
+                                passwordForm.get('newPassword')?.hasError('minlength')) {
+                                <span class="field-error">Must be at least 6 characters</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-save"
+                                [disabled]="passwordForm.invalid || passwordForm.pristine">
+                                Update password
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+</div>
