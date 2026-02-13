@@ -107,6 +107,29 @@
   background: #333;
 }
 
+.field-error {
+  font-size: 11px;
+  color: #dc2626;
+  padding-left: 4px;
+}
+
+.auth-link {
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  margin-top: 20px;
+}
+
+.auth-link a {
+  color: #111;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 480px) {
   .login-page {
     padding: 16px;

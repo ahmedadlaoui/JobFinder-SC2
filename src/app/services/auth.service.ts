@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, switchMap, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from '../models/user.model';
 
@@ -45,12 +45,49 @@ export class AuthService {
                 }
                 return users[0];
             }),
-            tap(user => {
-                const { password: _, ...safeUser } = user as User & { password?: string };
-                localStorage.setItem('currentUser', JSON.stringify(safeUser));
-                this.currentUserSubject.next(safeUser as User);
-            })
+            tap(user => this.setUser(user))
         );
+    }
+
+    register(name: string, email: string, password: string): Observable<User> {
+        return this.http.get<User[]>(this.apiUrl, { params: { email } }).pipe(
+            map(users => {
+                if (users.length > 0) {
+                    throw new Error('Email already exists');
+                }
+            }),
+            switchMap(() => this.http.post<User>(this.apiUrl, { name, email, password })),
+            tap(user => this.setUser(user))
+        );
+    }
+
+    updateUser(data: { name: string; email: string }): Observable<User> {
+        const id = this.currentUser!.id;
+        return this.http.patch<User>(`${this.apiUrl}/${id}`, data).pipe(
+            tap(user => this.setUser(user))
+        );
+    }
+
+    updatePassword(oldPassword: string, newPassword: string): Observable<User> {
+        const id = this.currentUser!.id;
+        return this.http.get<User[]>(this.apiUrl, {
+            params: { id: id.toString(), password: oldPassword }
+        }).pipe(
+            map(users => {
+                if (users.length === 0) {
+                    throw new Error('Current password is incorrect');
+                }
+                return users[0];
+            }),
+            switchMap(() => this.http.patch<User>(`${this.apiUrl}/${id}`, { password: newPassword })),
+            tap(user => this.setUser(user))
+        );
+    }
+
+    private setUser(user: User): void {
+        const { password: _, ...safeUser } = user as User & { password?: string };
+        localStorage.setItem('currentUser', JSON.stringify(safeUser));
+        this.currentUserSubject.next(safeUser as User);
     }
 
     logout(): void {

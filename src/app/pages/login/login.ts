@@ -1,29 +1,36 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-login',
-    imports: [FormsModule],
+    imports: [ReactiveFormsModule, RouterLink],
     templateUrl: './login.html',
     styleUrl: './login.css',
 })
 export class LoginComponent {
-    email = '';
-    password = '';
+    form: FormGroup;
     errorMessage = '';
 
-    constructor(private router: Router, private authService: AuthService) {
+    constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
         if (this.authService.isLoggedIn) {
             this.router.navigate(['/jobs']);
         }
+        this.form = this.fb.group({
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required, Validators.minLength(6)]],
+        });
     }
 
     onSubmit(): void {
-        if (!this.email || !this.password) return;
+        if (this.form.invalid) {
+            this.form.markAllAsTouched();
+            return;
+        }
         this.errorMessage = '';
-        this.authService.login(this.email, this.password).subscribe({
+        const { email, password } = this.form.value;
+        this.authService.login(email, password).subscribe({
             next: () => this.router.navigate(['/jobs']),
             error: () => this.errorMessage = 'Invalid email or password'
         });

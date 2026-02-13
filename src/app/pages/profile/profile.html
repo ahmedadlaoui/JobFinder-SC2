@@ -114,6 +114,9 @@
                                 passwordForm.get('oldPassword')?.hasError('required')) {
                                 <span class="field-error">Current password is required</span>
                                 }
+                                @if (passwordForm.get('oldPassword')?.hasError('incorrect')) {
+                                <span class="field-error">Current password is incorrect</span>
+                                }
                             </div>
                             <div class="form-group">
                                 <label for="newPassword">New password</label>

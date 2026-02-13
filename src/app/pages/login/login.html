@@ -9,20 +9,32 @@
         <div class="error-msg">{{ errorMessage }}</div>
         }
 
-        <form class="login-form" (ngSubmit)="onSubmit()">
+        <form class="login-form" [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input id="email" type="email" placeholder="you@example.com" [(ngModel)]="email" name="email"
-                    required />
+                <input id="email" type="email" placeholder="you@example.com" formControlName="email" />
+                @if (form.get('email')?.dirty && form.get('email')?.hasError('required')) {
+                <span class="field-error">Email is required</span>
+                }
+                @if (form.get('email')?.dirty && form.get('email')?.hasError('email')) {
+                <span class="field-error">Enter a valid email</span>
+                }
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <input id="password" type="password" placeholder="Enter your password" [(ngModel)]="password"
-                    name="password" required />
+                <input id="password" type="password" placeholder="Enter your password" formControlName="password" />
+                @if (form.get('password')?.dirty && form.get('password')?.hasError('required')) {
+                <span class="field-error">Password is required</span>
+                }
+                @if (form.get('password')?.dirty && form.get('password')?.hasError('minlength')) {
+                <span class="field-error">Must be at least 6 characters</span>
+                }
             </div>
 
             <button type="submit" class="btn-login">Sign in</button>
         </form>
+
+        <p class="auth-link">Don't have an account? <a routerLink="/register">Sign up</a></p>
     </div>
 </div>

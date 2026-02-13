@@ -44,9 +44,18 @@ export class ProfileComponent implements OnInit {
 
     onSubmit(): void {
         if (this.profileForm.invalid) return;
+        const { name, email } = this.profileForm.value;
+        this.authService.updateUser({ name, email }).subscribe({
+            next: () => this.profileForm.markAsPristine(),
+        });
     }
 
     onChangePassword(): void {
         if (this.passwordForm.invalid) return;
+        const { oldPassword, newPassword } = this.passwordForm.value;
+        this.authService.updatePassword(oldPassword, newPassword).subscribe({
+            next: () => this.passwordForm.reset(),
+            error: (err) => this.passwordForm.get('oldPassword')?.setErrors({ incorrect: true })
+        });
     }
 }

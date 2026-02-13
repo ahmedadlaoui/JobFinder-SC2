@@ -9,6 +9,11 @@ export const routes: Routes = [
             import('./pages/login/login').then((m) => m.LoginComponent),
     },
     {
+        path: 'register',
+        loadComponent: () =>
+            import('./pages/register/register/register').then((m) => m.Register),
+    },
+    {
         path: 'jobs',
         loadComponent: () =>
             import('./pages/job-search/job-search').then((m) => m.JobSearchComponent),
