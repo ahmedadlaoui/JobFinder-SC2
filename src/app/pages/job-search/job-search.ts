@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { SearchBarComponent } from '../../components/search-bar/search-bar';
 import { JobCardComponent } from '../../components/job-card/job-card';
@@ -53,6 +53,7 @@ export class JobSearchComponent implements OnInit {
     constructor(
         private jobService: JobService,
         private store: Store,
+        private router: Router,
         public authService: AuthService
     ) {
         this.favorites$ = this.store.select(selectAllFavorites);
@@ -99,6 +100,10 @@ export class JobSearchComponent implements OnInit {
     }
 
     onAddJobToFavorite(jobFromChild: Job) {
+        if (!this.authService.isLoggedIn) {
+            this.router.navigate(['/login']);
+            return;
+        }
         this.favoriteOfferIdMap$.pipe(take(1)).subscribe(m => {
             const favId = m.get(jobFromChild.id);
             if (favId !== undefined) {
@@ -110,6 +115,10 @@ export class JobSearchComponent implements OnInit {
     }
 
     onApplyToJob(job: Job) {
+        if (!this.authService.isLoggedIn) {
+            this.router.navigate(['/login']);
+            return;
+        }
         this.store.dispatch(ApplicationsActions.addApplication({ job }));
     }
 }

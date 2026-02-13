@@ -160,6 +160,21 @@
   background: #fef2f2;
 }
 
+.btn-header-login {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: #111;
+  padding: 7px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.btn-header-login:hover {
+  background: #333;
+}
+
 /* ── Hero / Search area ── */
 .hero-inner {
   max-width: 1080px;

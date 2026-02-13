@@ -12,9 +12,13 @@
                 </a>
                 <nav class="header-nav">
                     <a routerLink="/jobs" class="nav-link active">Find job</a>
+                    @if (authService.isLoggedIn) {
                     <a routerLink="/favorites" class="nav-link">Favorites</a>
                     <a routerLink="/applications" class="nav-link">Applications</a>
+                    }
                 </nav>
+
+                @if (authService.isLoggedIn) {
                 <div class="header-right">
                     <div class="header-user" (click)="authService.toggleDropdown(); $event.stopPropagation()">
                         <span class="user-name">{{ authService.currentUser?.name }}</span>
@@ -46,6 +50,9 @@
                     </div>
                     }
                 </div>
+                } @else {
+                <a routerLink="/login" class="btn-header-login">Sign in</a>
+                }
             </div>
         </header>
 
